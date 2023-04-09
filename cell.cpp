@@ -7,6 +7,7 @@ using namespace std;
 string complementary(string a);
 string reverseStr(string s, int a, int b);
 string replaceStr(int pos1, int len1, string s, int pos2, int len2);
+int findSubstr(string main, string find);
 class genome
 {
 public:
@@ -56,7 +57,6 @@ string complementary(string a)
     {
         switch (a[i])
         {
-
         case 'A':
 
             m += 'T';
@@ -119,6 +119,31 @@ string replaceStr(string main, int pos1, int len1, string insert, int pos2 = 0, 
     }
     return newStr;
 };
+int findSubstr(string main, string find)
+{
+    bool similar = true;
+    int i;
+    for (i = 0; i <= main.length() - find.length(); i++)
+    {
+        similar = true;
+        for (int j = 0; j < find.length(); j++)
+        {
+            if (main[i + j] != find[j])
+            {
+                similar = false;
+                break;
+            }
+        }
+        if (similar)
+        {
+            break;
+        }
+    }
+    if (similar)
+        return i;
+    else
+        return -1;
+}
 
 // genome class functions:
 void genome::smallMutation(string A, string C, int n)
@@ -126,15 +151,15 @@ void genome::smallMutation(string A, string C, int n)
     for (int i = 0; i < n; i++)
     {
 
-        if (DNA[0].find(A) < DNA[1].find(A))
+        if (findSubstr(DNA[0], A) < findSubstr(DNA[1], A))
         {
-            int p = DNA[0].find(A);
+            int p = findSubstr(DNA[0], A);
             DNA[0] = replaceStr(DNA[0], p, A.length(), C);
             DNA[1] = replaceStr(DNA[1], p, A.length(), complementary(C));
         }
         else
         {
-            int p = DNA[1].find(A);
+            int p = findSubstr(DNA[1], A);
             DNA[0] = replaceStr(DNA[0], p, A.length(), C);
             DNA[1] = replaceStr(DNA[1], p, A.length(), complementary(C));
         }
@@ -142,10 +167,10 @@ void genome::smallMutation(string A, string C, int n)
 }
 void genome::greatMutation(string S1, string S2)
 {
-    if (DNA[0].find(S1) < DNA[1].find(S1))
+    if (findSubstr(DNA[0], S1) < findSubstr(DNA[1], S1))
     {
-        int p1 = DNA[0].find(S1);
-        int p2 = DNA[0].find(S2);
+        int p1 = findSubstr(DNA[0], S1);
+        int p2 = findSubstr(DNA[0], S2);
         string temp = DNA[0].substr(p1, S1.length());
         DNA[0] = replaceStr(DNA[0], p1, S1.length(), DNA[0], p2, S2.length());
         DNA[0] = replaceStr(DNA[0], p2, S2.length(), temp);
@@ -155,8 +180,8 @@ void genome::greatMutation(string S1, string S2)
     }
     else
     {
-        int p1 = DNA[1].find(S1);
-        int p2 = DNA[1].find(S2);
+        int p1 = findSubstr(DNA[1], S1);
+        int p2 = findSubstr(DNA[1], S2);
         string temp = DNA[1].substr(p1, S1.length());
         DNA[1] = replaceStr(DNA[1], p1, S1.length(), DNA[1], p2, S2.length());
         DNA[1] = replaceStr(DNA[1], p2, S2.length(), temp);
@@ -167,19 +192,19 @@ void genome::greatMutation(string S1, string S2)
 }
 void genome::reverseMutation(string S1)
 {
-    if (DNA[0].find(S1) < DNA[1].find(S1))
+    if (findSubstr(DNA[0], S1) < findSubstr(DNA[1], S1))
     {
-        int p = DNA[0].find(S1);
+        int p = findSubstr(DNA[0], S1);
         DNA[0] = reverseStr(DNA[0], p, p + S1.length());
         DNA[1] = reverseStr(DNA[1], p, p + S1.length());
     }
     else
     {
-        int p = DNA[1].find(S1);
+        int p = findSubstr(DNA[1], S1);
         DNA[0] = reverseStr(DNA[0], p, p + S1.length());
         DNA[1] = reverseStr(DNA[1], p, p + S1.length());
     }
-    int p = RNA.find(S1);
+    int p = findSubstr(RNA, S1);
     RNA = reverseStr(RNA, p, p + S1.length());
     RNA = reverseStr(RNA, p, p + S1.length());
 }
@@ -190,15 +215,15 @@ void cell::smallMutation(string A, string C, int n, int m)
     for (int i = 0; i < n; i++)
     {
 
-        if (chromosome[m].DNA[0].find(A) < chromosome[m].DNA[1].find(A))
+        if (findSubstr(chromosome[m].DNA[0], A) < findSubstr(chromosome[m].DNA[1], A))
         {
-            int p = chromosome[m].DNA[0].find(A);
+            int p = findSubstr(chromosome[m].DNA[0], A);
             chromosome[m].DNA[0] = replaceStr(chromosome[m].DNA[0], p, A.length(), C);
             chromosome[m].DNA[1] = replaceStr(chromosome[m].DNA[1], p, A.length(), complementary(C));
         }
         else
         {
-            int p = chromosome[m].DNA[1].find(A);
+            int p = findSubstr(chromosome[m].DNA[1], A);
             chromosome[m].DNA[0] = replaceStr(chromosome[m].DNA[0], p, A.length(), C);
             chromosome[m].DNA[1] = replaceStr(chromosome[m].DNA[1], p, A.length(), complementary(C));
         }
@@ -206,10 +231,10 @@ void cell::smallMutation(string A, string C, int n, int m)
 }
 void cell::greatMutation(string S1, int n, string S2, int m)
 {
-    if (chromosome[n].DNA[0].find(S1) < chromosome[n].DNA[1].find(S1))
+    if (findSubstr(chromosome[n].DNA[0], S1) < findSubstr(chromosome[n].DNA[1], S1))
     {
-        int p1 = chromosome[n].DNA[0].find(S1);
-        int p2 = chromosome[m].DNA[0].find(S2);
+        int p1 = findSubstr(chromosome[n].DNA[0], S1);
+        int p2 = findSubstr(chromosome[m].DNA[0], S2);
         string temp = chromosome[n].DNA[0].substr(p1, S1.length());
         chromosome[n].DNA[0] = replaceStr(chromosome[n].DNA[0], p1, S1.length(), chromosome[m].DNA[0], p2, S2.length());
         chromosome[m].DNA[0] = replaceStr(chromosome[m].DNA[0], p2, S2.length(), temp);
@@ -219,8 +244,8 @@ void cell::greatMutation(string S1, int n, string S2, int m)
     }
     else
     {
-        int p1 = chromosome[n].DNA[1].find(S1);
-        int p2 = chromosome[m].DNA[1].find(S2);
+        int p1 = findSubstr(chromosome[n].DNA[1], S1);
+        int p2 = findSubstr(chromosome[m].DNA[1], S2);
         string temp = chromosome[n].DNA[1].substr(p1, S1.length());
         chromosome[n].DNA[1] = replaceStr(chromosome[n].DNA[1], p1, S1.length(), chromosome[m].DNA[1], p2, S2.length());
         chromosome[m].DNA[1] = replaceStr(chromosome[m].DNA[1], p2, S2.length(), temp);
@@ -231,15 +256,15 @@ void cell::greatMutation(string S1, int n, string S2, int m)
 }
 void cell::reverseMutation(string S1, int n)
 {
-    if (chromosome[n].DNA[0].find(S1) < chromosome[n].DNA[1].find(S1))
+    if (findSubstr(chromosome[n].DNA[0], S1) < findSubstr(chromosome[n].DNA[1], S1))
     {
-        int p = chromosome[n].DNA[0].find(S1);
+        int p = findSubstr(chromosome[n].DNA[0], S1);
         chromosome[n].DNA[0] = reverseStr(chromosome[n].DNA[0], p, p + S1.length());
         chromosome[n].DNA[1] = reverseStr(chromosome[n].DNA[1], p, p + S1.length());
     }
     else
     {
-        int p = chromosome[n].DNA[1].find(S1);
+        int p = findSubstr(chromosome[n].DNA[1], S1);
         chromosome[n].DNA[0] = reverseStr(chromosome[n].DNA[0], p, p + S1.length());
         chromosome[n].DNA[1] = reverseStr(chromosome[n].DNA[1], p, p + S1.length());
     }
