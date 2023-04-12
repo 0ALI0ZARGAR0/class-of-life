@@ -31,10 +31,12 @@ class cell : genome
 {
 public:
     vector<genome> chromosome;
-    cell(string dna1, string dna2) : genome("", "", "") // since a cell is not a genome but it has to inherit, those properties have to be empty
+    cell() : genome("", "", "") // since a cell is not a genome but it has to inherit,
+                                // those properties have to be empty
     {
-        genome gen = genome("", dna1, dna2);
-        chromosome.push_back(gen);
+        // string dna1, string dna2
+        // genome gen = genome("", dna1, dna2);
+        // chromosome.push_back(gen);
     }
     void addGenome(genome gen)
     {
@@ -51,6 +53,7 @@ public:
 
 int main()
 {
+
     return 0;
 }
 
@@ -359,7 +362,7 @@ void cell::death()
         }
         if (n >= 5 or at >= 3 * cg)
         {
-            // del
+            // delete this;
             cout << "Your cell died\n";
             return;
         }
