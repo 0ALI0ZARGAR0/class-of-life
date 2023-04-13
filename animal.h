@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -9,6 +8,7 @@ using namespace std;
 class Animal : public cell
 {
 public:
+    bool health = true;
     double Genetic_similarity(Animal animal1)
     {
         double sum2 = 0;
@@ -129,6 +129,57 @@ public:
                 cout << "Your chromosome" << j + 1 << " died\n";
                 return;
             }
+        }
+    }
+    friend class virus;
+};
+
+string biggestCommonSubstr(Animal animal)
+{
+    int n = animal.chromosome.size();
+
+    // Takes first DNA from array as reference
+    string s = animal.chromosome[0].DNA[0];
+    int len = s.length();
+
+    string ans = "";
+
+    for (int i = 0; i < len; i++)
+    {
+        for (int j = i + 1; j <= len; j++)
+        {
+            // creating every possible substrings
+            string sub = s.substr(i, j);
+            int k = 1;
+            for (k = 1; k < n; k++)
+            {
+                // checks if the generated string(sub) is in common to all DNAs
+                if (findSubstr(animal.chromosome[k].DNA[0], sub) == -1)
+                    break;
+            }
+            if (j == len - 2)
+            {
+                //
+            }
+            if (k == n && ans.length() < sub.length())
+                ans = sub;
+        }
+    }
+
+    return ans;
+}
+class virus : public genome
+{
+public:
+    virus(string rna) : genome(rna, "", "") {}
+    void harm(Animal &animal)
+    {
+        string bcs = biggestCommonSubstr(animal);
+        if (RNA.find(bcs) != -1 or RNA.find(complementary(bcs)) != -1)
+        {
+            animal.health = false;
+            cout << "the virus and animal had \"" << bcs << "\" in common\n"
+                 << "harm applied to your animal\n";
         }
     }
 };
