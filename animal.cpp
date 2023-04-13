@@ -1,45 +1,139 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include <cstdlib>
+#include "cell.h"
+#include <set>
 using namespace std;
-class Animal
+
+class Animal : public cell
 {
-   void Genetic_similarity(cell cell1,cell2)
+public:
+    double Genetic_similarity(Animal animal1)
     {
-        int sum=0;
-        for(int i=0;i <max(cell2.size(),cell1.size());i++)
+        double sum2 = 0;
+        for (int j = 0; j < min(chromosome.size(), animal1.chromosome.size()); j++)
         {
-          if(cell1[i] !=cell2[i])
-          {
-              sum+=1;
-          }
-
+            int sum = 0;
+            int l1 = chromosome[j].DNA[0].length();
+            int l2 = animal1.chromosome[j].DNA[0].length();
+            for (int i = 0; i < min(l1, l2); i++)
+            {
+                if (chromosome[j].DNA[0][i] != animal1.chromosome[j].DNA[0][i])
+                {
+                    sum += 1;
+                }
+            }
+            sum += abs(l2 - l1);
+            sum2 += 100 - (sum / max(l1, l2)) * 100;
         }
-       double Percent=100-(sum/max(cell1.size(),cell2.size()))*100;
-       cout<<"darsad tashaboh is:"<<Percent;
-
+        return double(sum2 / min(chromosome.size(), animal1.chromosome.size()));
     }
-    bool Same_Species()
+    bool operator==(Animal animal1)
     {
-        if(Percent>=70)return true;return false;
+        if (Genetic_similarity(animal1) >= 70)
+            return true;
+        return false;
     }
-    void asexual()
+    Animal asexual()
     {
-        strcpy(cell);
-
-        for (int i = 0; i <(0.7)cell.size ; i++)
+        int n = chromosome.size();
+        set<int> fixed;
+        Animal New_animal;
+        while (fixed.size() <= ceil(0.7 * n))
         {
-            rand() 
+            fixed.insert(rand() % (n + 1));
         }
-
-        
-       
-
-
+        for (int i = 0; i < n; i++)
+        {
+            if (fixed.count(i))
+            {
+                New_animal.addGenome(chromosome[i]);
+            }
+            else
+            {
+                New_animal.addGenome(chromosome[rand() % (n + 1)]);
+            }
+        }
+        return New_animal;
     }
-
+    Animal operator+(Animal animal2)
+    {
+        // if (chromosome.size() % 2 == 1 and animal2.chromosome.size() % 2 == 1)
+        // {
+        //     cout << "error!\n";
+        //     return;
+        // }
+        Animal asexual1 = asexual();
+        Animal asexual2 = animal2.asexual();
+        int n = asexual1.chromosome.size();
+        int m = asexual2.chromosome.size();
+        Animal New_animal;
+        set<int> set11, set12, set21, set22;
+        for (int i = 0; i < 500; i++)
+        {
+            while (set11.size() == n / 2)
+            {
+                set11.insert(rand() % (n + 1));
+            }
+            while (set12.size() == n / 2)
+            {
+                set12.insert(rand() % (n + 1));
+            }
+            while (set22.size() == m / 2)
+            {
+                set22.insert(rand() % (m + 1));
+            }
+            while (set21.size() == m / 2)
+            {
+                set21.insert(rand() % (m + 1));
+            }
+            for (int i = 0; i < n / 2; i++)
+            {
+                New_animal.addGenome(asexual1.chromosome[i]);
+            }
+            for (int i = 0; i < m; i++)
+            {
+                New_animal.addGenome(asexual2.chromosome[i]);
+            }
+            if (Genetic_similarity(New_animal) >= 70 and animal2.Genetic_similarity(New_animal) >= 70)
+            {
+                return New_animal;
+            }
+        }
+    }
+    void death()
+    {
+        for (int j = 0; j < chromosome.size(); j++)
+        {
+            int n = 0, at = 0, cg = 0;
+            for (int i = 0; i < chromosome[j].DNA[0].length(); i++)
+            {
+                string x = string(1, chromosome[j].DNA[1][i]);
+                if (x != complementary(string(1, chromosome[j].DNA[0][i])))
+                {
+                    n++;
+                }
+                if (chromosome[j].DNA[0][i] == 'A' or chromosome[j].DNA[0][i] == 'T')
+                {
+                    at++;
+                }
+                else
+                {
+                    cg++;
+                }
+            }
+            if (n >= 5 or at >= 3 * cg)
+            {
+                // delete chromosome[j];
+                cout << "Your chromosome" << j + 1 << " died\n";
+                return;
+            }
+        }
+    }
 };
 
-int main(){
-   
+int main()
+{
+    srand(time(0));
+    return 0;
 }
