@@ -1,14 +1,18 @@
-
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include "cell.h"
 #include <set>
+#include <math.h>
 using namespace std;
 
 class Animal : public cell
 {
 public:
+    Animal(){}
+    Animal(vector<genome> r){
+        chromosome = r;
+    }
     double Genetic_similarity(Animal animal1)
     {
         double sum2 = 0;
@@ -132,3 +136,8 @@ public:
         }
     }
 };
+
+int main()
+{
+    return 0;
+}
