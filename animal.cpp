@@ -3,20 +3,12 @@
 #include <cstdlib>
 #include "cell.h"
 #include <set>
-#include <math.h>
 using namespace std;
 
 class Animal : public cell
 {
 public:
-<<<<<<< HEAD
-    Animal(){}
-    Animal(vector<genome> r){
-        chromosome = r;
-    }
-=======
     bool health = true;
->>>>>>> 1a5dcc91efda207269ed221e899088bec3311e3b
     double Genetic_similarity(Animal animal1)
     {
         double sum2 = 0;
