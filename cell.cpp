@@ -27,7 +27,7 @@ public:
                         << DNA[1] << endl; }
 };
 
-class cell : genome
+class cell : public genome
 {
 public:
     vector<genome> chromosome;
