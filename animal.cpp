@@ -59,46 +59,81 @@ public:
     }
     Animal operator+(Animal animal2)
     {
-        // if (chromosome.size() % 2 == 1 and animal2.chromosome.size() % 2 == 1)
-        // {
-        //     cout << "error!\n";
-        //     return;
-        // }
-        Animal asexual1 = asexual();
-        Animal asexual2 = animal2.asexual();
-        int n = asexual1.chromosome.size();
-        int m = asexual2.chromosome.size();
-        Animal New_animal;
-        set<int> set11, set12, set21, set22;
-        for (int i = 0; i < 500; i++)
+        if (chromosome.size() % 2 == 0 and animal2.chromosome.size() % 2 == 0)
         {
-            while (set11.size() == n / 2)
+            Animal asexual1 = asexual();
+            Animal asexual2 = animal2.asexual();
+            int n = asexual1.chromosome.size();
+            int m = asexual2.chromosome.size();
+            Animal New_animal;
+            set<int> set11, set12, set21, set22;
+            for (int i = 0; i < 500; i++)
             {
-                set11.insert(rand() % (n + 1));
+                while (set11.size() == n / 2)
+                {
+                    set11.insert(rand() % (n + 1));
+                }
+                while (set12.size() == n / 2)
+                {
+                    set12.insert(rand() % (n + 1));
+                }
+                while (set22.size() == m / 2)
+                {
+                    set22.insert(rand() % (m + 1));
+                }
+                while (set21.size() == m / 2)
+                {
+                    set21.insert(rand() % (m + 1));
+                }
+                for (int i = 0; i < n / 2; i++)
+                {
+                    New_animal.addGenome(asexual1.chromosome[i]);
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    New_animal.addGenome(asexual2.chromosome[i]);
+                }
+                if (Genetic_similarity(New_animal) >= 70 and animal2.Genetic_similarity(New_animal) >= 70)
+                {
+                    return New_animal;
+                }
             }
-            while (set12.size() == n / 2)
+            Animal asexual1 = asexual();
+            Animal asexual2 = animal2.asexual();
+            int n = asexual1.chromosome.size();
+            int m = asexual2.chromosome.size();
+            Animal New_animal;
+            set<int> set11, set12, set21, set22;
+            for (int i = 0; i < 500; i++)
             {
-                set12.insert(rand() % (n + 1));
-            }
-            while (set22.size() == m / 2)
-            {
-                set22.insert(rand() % (m + 1));
-            }
-            while (set21.size() == m / 2)
-            {
-                set21.insert(rand() % (m + 1));
-            }
-            for (int i = 0; i < n / 2; i++)
-            {
-                New_animal.addGenome(asexual1.chromosome[i]);
-            }
-            for (int i = 0; i < m; i++)
-            {
-                New_animal.addGenome(asexual2.chromosome[i]);
-            }
-            if (Genetic_similarity(New_animal) >= 70 and animal2.Genetic_similarity(New_animal) >= 70)
-            {
-                return New_animal;
+                while (set11.size() == n / 2)
+                {
+                    set11.insert(rand() % (n + 1));
+                }
+                while (set12.size() == n / 2)
+                {
+                    set12.insert(rand() % (n + 1));
+                }
+                while (set22.size() == m / 2)
+                {
+                    set22.insert(rand() % (m + 1));
+                }
+                while (set21.size() == m / 2)
+                {
+                    set21.insert(rand() % (m + 1));
+                }
+                for (int i = 0; i < n / 2; i++)
+                {
+                    New_animal.addGenome(asexual1.chromosome[i]);
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    New_animal.addGenome(asexual2.chromosome[i]);
+                }
+                if (Genetic_similarity(New_animal) >= 70 and animal2.Genetic_similarity(New_animal) >= 70)
+                {
+                    return New_animal;
+                }
             }
         }
     }
@@ -157,10 +192,10 @@ string biggestCommonSubstr(Animal animal)
                 if (findSubstr(animal.chromosome[k].DNA[0], sub) == -1)
                     break;
             }
-            if (j == len - 2)
-            {
-                //
-            }
+            // if (j == len - 2)
+            // {
+            //     //
+            // }
             if (k == n && ans.length() < sub.length())
                 ans = sub;
         }
