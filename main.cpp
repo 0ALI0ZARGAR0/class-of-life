@@ -4,7 +4,6 @@
 #include "animal.h"
 using namespace std;
 
-vector<Animal> Animals;
 vector<genome> genomes;
 vector<cell> cells;
 vector<Animal> animals;
@@ -290,25 +289,31 @@ int main()
         case 3:
         {
             int action3;
-            cout << "what do you want to do?" << endl;
-            cout << "5 create an Animal" << endl;
-            cout << "'1' genetics similarity" << endl;
-            cout << "'2' Same animal " << endl;
-            cout << "'3' asexual reproduction " << endl;
-            cout << "'4' sexual reproduction " << endl;
+            cout << "what do you wish to do?" << endl;
+            cout << "'1' create an Animal" << endl;
+            cout << "'2' genetics similarity" << endl;
+            cout << "'3' Is same kind? " << endl;
+            cout << "'4' asexual reproduction " << endl;
+            cout << "'5' sexual reproduction " << endl;
             cin >> action3;
 
             switch (action3)
             {
-
             case 1:
             {
-                Animal animal2;
-                Animal animal1;
-                animal1.Genetic_similarity(animal2);
-                break;
+                Animal tmp;
+                animals.push_back(tmp);
+                cout << "animal created successfully!\n";
             }
             case 2:
+            {
+                int n, m;
+                cout << "choose your animals:\n";
+                cin >> n >> m;
+                cout << "similarity is: " << animals[n].Genetic_similarity(animals[m]) << endl;
+                break;
+            }
+            case 3:
             {
                 Animal animal1;
                 cout << "Enter the chromosome of animal1 :";
@@ -325,7 +330,7 @@ int main()
                 }
                 break;
             }
-            case 3:
+            case 4:
             {
                 string chromosome;
                 cout << "Enter the chromosome :" << endl;
@@ -334,7 +339,7 @@ int main()
                 animal1.asexual();
                 break;
             }
-            case 4:
+            case 5:
             {
                 string chromosome;
                 cout << "Enter the chromosome of aniaml2 :" << endl;
@@ -342,7 +347,7 @@ int main()
                 animal2.operator+(chromosome);
                 new_aniaml.print();
             }
-            case 5:
+            case 6:
             {
                 int cC, aC;
                 cout << "how many animals do you want to create?" << endl;
