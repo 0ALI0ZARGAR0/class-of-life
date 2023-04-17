@@ -5,64 +5,68 @@
 #include <string>
 
 using namespace std;
-string complementary(string a);
-string reverseStr(string s, int a, int b);
-string replaceStr(int pos1, int len1, string s, int pos2, int len2);
-int findSubstr(string main, string find);
-class genome
+string complementary(string a);                                      // creates the complementary series of nucleotides
+string reverseStr(string s, int a, int b);                           // creates a string with reverse nucleotides of between indexes
+string replaceStr(int pos1, int len1, string s, int pos2, int len2); // replace a substring of an string with a substring of another
+int findSubstr(string main, string find);                            // finds the starting index of a pattern in an string
+
+class genome // It's our genome class which contains two DNA,
+             // an RNA (each are a series of nucleotide) and few functionalities
 {
 public:
     string RNA, DNA[2];
-    genome(string rna, string dna1, string dna2)
+    genome(string rna, string dna1, string dna2) // the constructor
     {
         RNA = rna;
         DNA[0] = dna1;
         DNA[1] = dna2;
     }
-    void smallMutation(string A, string C, int n);
-    void greatMutation(string S1, string S2);
-    void reverseMutation(string S1);
-    void createDNA() { cout << RNA << " | " << complementary(RNA) << endl; }
-    void print() { cout << "RNA: " << RNA << endl
-                        << "DNA: " << DNA[0] << " | "
-                        << DNA[1] << endl; }
+    // each function will be performed both on DNA and RNA
+    void smallMutation(string A, string C, int n); // replaces nucleotide A with nucleotide C for n times
+    void greatMutation(string S1, string S2);      // replaces the first series of nucleotides A with nucleotides C
+    void reverseMutation(string S1);               // reverse the order of first series of nucleotides S1
+    void createDNA()                               // prints the complementary version of RNA (known as how DNA should be)
+    {
+        cout << RNA << " | " << complementary(RNA) << endl;
+    }
+    void print() // prints cell data
+    {
+        cout << "RNA: " << RNA << endl
+             << "DNA: " << DNA[0] << " | "
+             << DNA[1] << endl;
+    }
 };
 
-class cell : public genome
+class cell : public genome // our cell class inherits from genome class and contains a series of genomes
 {
 public:
     vector<genome> chromosome;
     cell() : genome("", "", "") // since a cell is not a genome but it has to inherit,
                                 // those properties have to be empty
     {
-        // string dna1, string dna2
-        // genome gen = genome("", dna1, dna2);
-        // chromosome.push_back(gen);
     }
-    void addGenome(genome gen)
+    void addGenome(genome gen) // adds genome to cell series of genomes
     {
         gen.RNA = "";
         chromosome.push_back(gen);
     }
-    void smallMutation(string A, string C, int n, int m);
-    void greatMutation(string S1, int n, string S2, int m);
-    void reverseMutation(string S1, int n);
-    void palindrome(int n);
-    void death();
-    void print(int n) { cout << "Your chromosome" << n + 1 << "'s DNA is: " << chromosome[n].DNA[0] << " | " << chromosome[n].DNA[1] << endl; }
+    void smallMutation(string A, string C, int n, int m);   // replaces nucleotide A with nucleotide C for n times in genome m
+    void greatMutation(string S1, int n, string S2, int m); // replaces the first series of nucleotides S1 from genome n with nucleotides S2 from genome m
+    void reverseMutation(string S1, int n);                 // reverse the order of first series of nucleotides S1 from genome n
+    void palindrome(int n);                                 // prints the existing palindromes of genome n DNA
+    void death();                                           // this may result in cell deletion if certain conditions be met
+    void print(int n)                                       // prints the genome n data
+    {
+        cout << "Your chromosome" << n + 1 << "'s DNA is: " << chromosome[n].DNA[0] << " | " << chromosome[n].DNA[1] << endl;
+    }
 };
 
 int main()
 {
-    // cell test;
-    // // AATTAAGCTC
-    // genome test_g("AATT", "AATTAAGCTC", "TTAA");
-    // test.addGenome(test_g);
-    // test.palindrome(0);
     return 0;
 }
 
-// functions:
+// main functions:
 string complementary(string a)
 {
     string m = "";
