@@ -148,7 +148,7 @@ public:
     friend class virus; // virus needs access to animal data
 };
 
-string biggestCommonSubstr(Animal animal) // finds the biggest common series of nucleotides among a series of DNAs
+string biggestCommonSubstr(Animal animal) // finds the biggest common series of nucleotides in an animal's genomes
 {
     int n = animal.chromosome.size();
 
@@ -188,7 +188,7 @@ public:
     void harm(Animal &animal)
     {
         string bcs = biggestCommonSubstr(animal);
-        if (RNA.find(bcs) != -1 or RNA.find(complementary(bcs)) != -1)
+        if (findSubstr(RNA, bcs) != -1 or findSubstr(RNA, complementary(bcs)) != -1)
         {
             animal.health = false;
             cout << "the virus and animal had \"" << bcs << "\" in common\n"
@@ -199,7 +199,7 @@ public:
     }
     void print() // prints virus RNA
     {
-        cout << "RNA: " << RNA << endl;
+        cout << "your virus RNA: " << RNA << endl;
     };
 };
 

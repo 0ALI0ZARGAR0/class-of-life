@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-// #include "cell.h"
 #include "animal.h"
 using namespace std;
 
@@ -12,7 +11,7 @@ void list_genomes()
 {
     for (int i = 0; i < genomes.size(); i++)
     {
-        cout << i + 1 << "- genome is:";
+        cout << "genome " << i + 1 << " is:\n";
         genomes[i].print();
         cout << endl;
     }
@@ -21,7 +20,7 @@ void list_cells()
 {
     for (int i = 0; i < cells.size(); i++)
     {
-        cout << i + 1 << "- cell is:";
+        cout << "cell " << i + 1 << " is:\n";
         for (int j = 0; j < cells[i].chromosome.size(); j++)
         {
             cells[i].print(j);
@@ -33,7 +32,7 @@ void list_animals()
 {
     for (int i = 0; i < animals.size(); i++)
     {
-        cout << i + 1 << "- animal is:";
+        cout << "animal " << i + 1 << " is:\n";
         for (int j = 0; j < animals[i].chromosome.size(); j++)
         {
             animals[i].print(j);
@@ -45,7 +44,7 @@ void list_viruses()
 {
     for (int i = 0; i < viruses.size(); i++)
     {
-        cout << i + 1 << "- virus :\n";
+        cout << "virus " << i + 1 << " :\n";
         viruses[i].print();
         cout << endl;
     }
@@ -59,7 +58,7 @@ int main()
     while (run)
     {
         // system("clear");
-        cout << "please select an option(by choosing a number):\n"
+        cout << "\nplease select an option(by choosing a number):\n"
              << "'1' for Genomes" << endl
              << "'2' for Cells" << endl
              << "'3' for Animals" << endl
@@ -71,8 +70,9 @@ int main()
         {
         case 1:
         {
+            list_genomes();
             int action;
-            cout << "What do you wish to do?" << endl
+            cout << "\nWhat do you wish to do?" << endl
                  << "'1' create a new Genome" << endl
                  << "'2' create a DNA by an RNA" << endl
                  << "'3' small Mutation (replace n nucleotides)" << endl
@@ -154,7 +154,7 @@ int main()
                 int Selected_genome;
                 cout << "Which genome? from 1 to " << genomes.size() << endl;
                 cin >> Selected_genome;
-                cout << "Enter s1 :";
+                cout << "Enter series of nucleotides: ";
                 cin >> s1;
                 genomes[Selected_genome - 1].reverseMutation(s1);
                 cout << "Mutation applied\nyour genome" << Selected_genome << " is:\n";
@@ -167,8 +167,9 @@ int main()
         }
         case 2:
         {
+            list_cells();
             int action2;
-            cout << "What do you wish to do?" << endl
+            cout << "\nWhat do you wish to do?" << endl
                  << "'1' Create a cell" << endl
                  << "'2' Add genome to an existing cell" << endl
                  << "'3' Check cell's health" << endl
@@ -196,7 +197,7 @@ int main()
                 int n;
                 cout << "How many chromosome you want to add now? " << endl;
                 cin >> n;
-                for (int i = 0; i <= n; i++)
+                for (int i = 0; i < n; i++)
                 {
                     string dna1;
                     string dna2;
@@ -204,7 +205,7 @@ int main()
                     cin >> dna1;
                     cout << "Enter your " << i + 1 << " DNA2: \n";
                     cin >> dna2;
-                    genome tmp(NULL, dna1, dna2);
+                    genome tmp = genome("", dna1, dna2);
                     c.addGenome(tmp);
                 }
                 cells.push_back(c);
@@ -216,7 +217,7 @@ int main()
                 int selected;
                 cout << "to which cell? from 1 to " << cells.size() << endl;
                 cin >> selected;
-                cout << "How many new chromosome you want to add? " << endl;
+                cout << "How many new chromosome you want create and add? " << endl;
                 cin >> n;
                 for (int i = 0; i < n; i++)
                 {
@@ -226,14 +227,14 @@ int main()
                     cin >> dna1;
                     cout << "Enter your " << i + 1 << " DNA2: \n";
                     cin >> dna2;
-                    genome tmp(NULL, dna1, dna2);
+                    genome tmp("", dna1, dna2);
                     cells[selected - 1].addGenome(tmp);
                 }
-                cout << "How many existing chromosome you want to add? " << endl;
+                cout << "How many existing chromosome you want to add?" << endl;
                 cin >> n;
                 for (int i = 0; i < n; i++)
                 {
-                    cout << "select your " << i + 1 << " genome: \n";
+                    cout << "select your " << i + 1 << " genome: from 1 to " << genomes.size() << endl;
                     int k;
                     cin >> k;
                     cells[selected - 1].addGenome(genomes[k - 1]);
@@ -255,15 +256,15 @@ int main()
                 cin >> selected;
                 string A, C;
                 int n, m;
+                cout << "Enter number of your chromosome: from 1 to " << cells[selected - 1].chromosome.size() << endl;
+                cin >> n;
                 cout << "Enter nucleotide to replace: " << endl;
                 cin >> A;
                 cout << "Enter nucleotides that are gonna be replace with: " << endl;
                 cin >> C;
-                cout << "Enter number of first chromosome: " << endl;
-                cin >> n;
                 cout << "Enter times: " << endl;
                 cin >> m;
-                cells[selected - 1].smallMutation(A, C, n - 1, m);
+                cells[selected - 1].smallMutation(A, C, m, n - 1);
                 cout << "your chromosome" << n << " is:\n";
                 cells[selected - 1].print(n - 1);
                 break;
@@ -275,19 +276,19 @@ int main()
                 cin >> selected;
                 string S1, S2;
                 int n, m;
-                cout << "Enter nucleotides to replace: " << endl;
-                cin >> S1;
-                cout << "Enter nucleotides to be replace with: " << endl;
-                cin >> S2;
                 cout << "Enter number of first chromosome: " << endl;
                 cin >> n;
+                cout << "Enter nucleotides to replace: " << endl;
+                cin >> S1;
                 cout << "Enter number of second chromosome: " << endl;
                 cin >> m;
-                cells[selected].greatMutation(S1, n - 1, S2, m - 1);
+                cout << "Enter nucleotides to be replace with: " << endl;
+                cin >> S2;
+                cells[selected - 1].greatMutation(S1, n - 1, S2, m - 1);
                 cout << "your chromosome" << n << " is:\n";
-                cells[selected].print(n - 1);
+                cells[selected - 1].print(n - 1);
                 cout << "your chromosome" << m << " is:\n";
-                cells[selected].print(m - 1);
+                cells[selected - 1].print(m - 1);
                 break;
             }
             case 6:
@@ -297,10 +298,10 @@ int main()
                 cin >> selected;
                 string A;
                 int n;
-                cout << "Enter nucleotide to reverse: " << endl;
-                cin >> A;
                 cout << "select you chromosome: " << endl;
                 cin >> n;
+                cout << "Enter nucleotide to reverse: " << endl;
+                cin >> A;
                 cells[selected - 1].reverseMutation(A, n - 1);
                 cout << "your chromosome" << n << " is:\n";
                 cells[selected - 1].print(n - 1);
@@ -322,14 +323,15 @@ int main()
         }
         case 3:
         {
+            list_animals();
             int action3;
-            cout << "what do you wish to do?" << endl;
-            cout << "'1' create an Animal" << endl;
+            cout << "\nwhat do you wish to do?" << endl;
+            cout << "'1' create Animal" << endl;
             cout << "'2' genetics similarity" << endl;
-            cout << "'3' Is same kind? " << endl;
+            cout << "'3' is same kind? " << endl;
             cout << "'4' asexual reproduction " << endl;
             cout << "'5' sexual reproduction " << endl;
-            cout << "'6' Check cell's health" << endl
+            cout << "'6' check cell's health" << endl
                  << "'0' for exit" << endl;
             cin >> action3;
             switch (action3)
@@ -349,25 +351,26 @@ int main()
                 int cC, aC;
                 cout << "how many animals do you want to create?" << endl;
                 cin >> aC;
-                Animal a1;
                 for (int j = 0; j < aC; j++)
                 {
+                    Animal a1;
                     cout << "for animal " << j + 1 << ":" << endl;
                     cout << "How many genomes do you want to add now? " << endl;
                     cin >> cC;
                     for (int i = 0; i < cC; i++)
                     {
                         string dn1, dn2;
-                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 1:" << endl;
+                        cout << "enter number " << i + 1 << " chromosome's DNA part 1:" << endl;
                         cin >> dn1;
-                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 2:" << endl;
+                        cout << "enter number " << i + 1 << " chromosome's DNA part 2:" << endl;
                         cin >> dn2;
-                        genome tmp(NULL, dn1, dn2);
+                        genome tmp("", dn1, dn2);
                         a1.addGenome(tmp);
                     }
                     animals.push_back(a1);
                     cout << "animal created successfully!\n";
                 }
+                break;
             }
             case 2:
             {
@@ -401,7 +404,9 @@ int main()
                 int selected1;
                 cout << "Which animal? from 1 to " << animals.size() << endl;
                 cin >> selected1;
-                animals[selected1 - 1].asexual();
+                Animal new_animal = animals[selected1 - 1].asexual();
+                new_animal.printf();
+                animals.push_back(new_animal);
                 break;
             }
             case 5:
@@ -414,6 +419,7 @@ int main()
                 cin >> selected2;
                 new_animal = animals[selected1 - 1] + (animals[selected2 - 1]);
                 new_animal.printf();
+                animals.push_back(new_animal);
                 break;
             }
             case 6:
@@ -425,10 +431,13 @@ int main()
                 break;
             }
             }
+            break;
+        }
         case 4:
         {
+            list_viruses();
             int a;
-            cout << "what do you wish to do?" << endl;
+            cout << "\nwhat do you wish to do?" << endl;
             cout << "'1' create a virus" << endl;
             cout << "'2' apply harm" << endl
                  << "'0' for exit" << endl;
@@ -452,6 +461,7 @@ int main()
                 cin >> rna;
                 virus tmp = virus(rna);
                 viruses.push_back(tmp);
+                cout << "virus created successfully!\n";
                 break;
             }
             case 2:
@@ -461,9 +471,11 @@ int main()
                 cin >> selected1;
                 cout << "to which animal? from 1 to " << animals.size() << endl;
                 cin >> selected2;
-                viruses[selected1].harm(animals[selected2]);
+                viruses[selected1 - 1].harm(animals[selected2 - 1]);
+                break;
             }
             }
+            break;
         }
         case 0:
         {
@@ -474,7 +486,6 @@ int main()
         {
             cout << "please enter a valid input!\n";
             break;
-        }
         }
         }
     }

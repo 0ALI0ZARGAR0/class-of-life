@@ -35,6 +35,7 @@ public:
              << "DNA: " << DNA[0] << " | "
              << DNA[1] << endl;
     }
+    friend class genome;
 };
 
 class cell : public genome // our cell class inherits from genome class and contains a series of genomes
@@ -238,14 +239,14 @@ void genome::smallMutation(string A, string C, int n)
         }
         if (string(1, DNA[0][i]) == A)
         {
-            string(1, DNA[0][i]) = C;
-            string(1, DNA[1][i]) = complementary(C);
+            DNA[0][i] = C[0];
+            DNA[1][i] = complementary(C)[0];
             j--;
         }
         else if (string(1, DNA[1][i]) == A)
         {
-            string(1, DNA[0][i]) = complementary(C);
-            string(1, DNA[1][i]) = A;
+            DNA[0][i] = complementary(C)[0];
+            DNA[1][i] = A[0];
             j--;
         }
     }
@@ -258,7 +259,7 @@ void genome::smallMutation(string A, string C, int n)
         }
         if (string(1, RNA[i]) == A)
         {
-            string(1, RNA[i]) = C;
+            RNA[i] = C[0];
             j--;
         }
     }
@@ -318,14 +319,14 @@ void cell::smallMutation(string A, string C, int j, int m)
         }
         if (string(1, chromosome[m].DNA[0][i]) == A)
         {
-            string(1, chromosome[m].DNA[0][i]) = C;
-            string(1, chromosome[m].DNA[1][i]) = complementary(C);
+            chromosome[m].DNA[0][i] = C[0];
+            chromosome[m].DNA[1][i] = complementary(C)[0];
             j--;
         }
         else if (string(1, chromosome[m].DNA[1][i]) == A)
         {
-            string(1, chromosome[m].DNA[0][i]) = complementary(C);
-            string(1, chromosome[m].DNA[1][i]) = A;
+            chromosome[m].DNA[0][i] = complementary(C)[0];
+            chromosome[m].DNA[1][i] = C[0];
             j--;
         }
     }
