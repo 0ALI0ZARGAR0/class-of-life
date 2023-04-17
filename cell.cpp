@@ -18,6 +18,7 @@ public:
         DNA[0] = dna1;
         DNA[1] = dna2;
     }
+     genome(){}
     void smallMutation(string A, string C, int n);
     void greatMutation(string S1, string S2);
     void reverseMutation(string S1);

@@ -9,14 +9,14 @@ using namespace std;
 class Animal : public cell
 {
 public:
-<<<<<<< HEAD
+//<<<<<<< HEAD
     Animal(){}
     Animal(vector<genome> r){
         chromosome = r;
     }
-=======
+//=======
     bool health = true;
->>>>>>> 1a5dcc91efda207269ed221e899088bec3311e3b
+//>>>>>>> 1a5dcc91efda207269ed221e899088bec3311e3b
     double Genetic_similarity(Animal animal1)
     {
         double sum2 = 0;
@@ -109,7 +109,7 @@ public:
                 return New_animal;
             }
         }
-    }
+    };
     void death()
     {
         for (int j = 0; j < chromosome.size(); j++)
