@@ -202,6 +202,7 @@ int main()
                     int k;
                     cin >> k;
                     cells[selected - 1].addGenome(genomes[k - 1]);
+<<<<<<< HEAD
                 }
                 break;
             }
@@ -303,6 +304,155 @@ int main()
             {
             case 1:
             {
+=======
+                }
+                break;
+            }
+            case 3:
+            {
+                int selected;
+                cout << "Which cell? from 1 to " << cells.size() << endl;
+                cin >> selected;
+                cells[selected - 1].death();
+                break;
+            }
+            case 4:
+            {
+                int selected;
+                cout << "Which cell? from 1 to " << cells.size() << endl;
+                cin >> selected;
+                string A, C;
+                int n, m;
+                cout << "Enter nucleotide to replace: " << endl;
+                cin >> A;
+                cout << "Enter nucleotides that are gonna be replace with: " << endl;
+                cin >> C;
+                cout << "Enter number of first chromosome: " << endl;
+                cin >> n;
+                cout << "Enter times: " << endl;
+                cin >> m;
+                cells[selected - 1].smallMutation(A, C, n - 1, m);
+                cout << "your chromosome" << n << " is:\n";
+                cells[selected - 1].print(n - 1);
+                break;
+            }
+            case 5:
+            {
+                int selected;
+                cout << "Which cell? from 1 to " << cells.size() << endl;
+                cin >> selected;
+                string S1, S2;
+                int n, m;
+                cout << "Enter nucleotides to replace: " << endl;
+                cin >> S1;
+                cout << "Enter nucleotides to be replace with: " << endl;
+                cin >> S2;
+                cout << "Enter number of first chromosome: " << endl;
+                cin >> n;
+                cout << "Enter number of second chromosome: " << endl;
+                cin >> m;
+                cells[selected].greatMutation(S1, n - 1, S2, m - 1);
+                cout << "your chromosome" << n << " is:\n";
+                cells[selected].print(n - 1);
+                cout << "your chromosome" << m << " is:\n";
+                cells[selected].print(m - 1);
+                break;
+            }
+            case 6:
+            {
+                int selected;
+                cout << "Which cell? from 1 to " << cells.size() << endl;
+                cin >> selected;
+                string A;
+                int n;
+                cout << "Enter nucleotide to reverse: " << endl;
+                cin >> A;
+                cout << "select you chromosome: " << endl;
+                cin >> n;
+                cells[selected - 1].reverseMutation(A, n - 1);
+                cout << "your chromosome" << n << " is:\n";
+                cells[selected - 1].print(n - 1);
+                break;
+            }
+            case 7:
+            {
+                int selected;
+                cout << "Which cell? from 1 to " << cells.size() << endl;
+                cin >> selected;
+                int n;
+                cout << "select you chromosome: " << endl;
+                cin >> n;
+                cells[selected - 1].palindrome(n - 1);
+                break;
+            }
+            }
+
+            break;
+        }
+        case 3:
+        {
+            int action3;
+            cout << "what do you wish to do?" << endl;
+            cout << "'1' create an Animal" << endl;
+            cout << "'2' genetics similarity" << endl;
+            cout << "'3' Is same kind? " << endl;
+            cout << "'4' asexual reproduction " << endl;
+            cout << "'5' sexual reproduction " << endl;
+            cin >> action3;
+
+            switch (action3)
+            {
+            case 1:
+            {
+                Animal tmp;
+                animals.push_back(tmp);
+                cout << "animal created successfully!\n";
+            }
+            case 2:
+            {
+                int n, m;
+                cout << "choose your animals:\n";
+                cin >> n >> m;
+                cout << "similarity is: " << animals[n].Genetic_similarity(animals[m]) << endl;
+                break;
+            }
+            case 3:
+            {
+                Animal animal1;
+                cout << "Enter the chromosome of animal1 :";
+                // cin>>;
+                cout << "Enter the chromosome of aniaml2 :";
+                // cin>>
+                if (Animals[m - 1].operator==(Animals[n - 1]))
+                {
+                    cout << "they are in a same group! " << endl;
+                }
+                else
+                {
+                    cout << "They are not the same!" << endl;
+                }
+                break;
+            }
+            case 4:
+            {
+                string chromosome;
+                cout << "Enter the chromosome :" << endl;
+                cin >> chromosome;
+                cout << "the cromosome of a new animal is:" << endl;
+                animal1.asexual();
+                break;
+            }
+            case 5:
+            {
+                string chromosome;
+                cout << "Enter the chromosome of aniaml2 :" << endl;
+                cin >> chromosome;
+                animal2.operator+(chromosome);
+                new_aniaml.print();
+            }
+            case 6:
+            {
+>>>>>>> b870935122989c003030ab444ce1afd494938c16
                 int cC, aC;
                 cout << "how many animals do you want to create?" << endl;
                 cin >> aC;
@@ -347,6 +497,7 @@ int main()
                 {
                     cout << "they are in a same group! " << endl;
                 }
+<<<<<<< HEAD
                 else
                 {
                     cout << "They are not the same!" << endl;
@@ -402,6 +553,17 @@ int main()
             run = false;
             break;
         }
+=======
+            }
+            }
+
+            break;
+        }
+        case 0:
+        {
+            run = false;
+        }
+>>>>>>> b870935122989c003030ab444ce1afd494938c16
         default:
         {
             cout << "please enter a valid input!\n";

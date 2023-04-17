@@ -11,7 +11,6 @@ int findSubstr(string main, string find);
 class genome
 {
 public:
-    genome(){}
     string RNA, DNA[2];
     genome(string rna, string dna1, string dna2)
     {
@@ -31,7 +30,6 @@ public:
 class cell : public genome
 {
 public:
-    cell(){}
     vector<genome> chromosome;
     cell() : genome("", "", "") // since a cell is not a genome but it has to inherit,
                                 // those properties have to be empty

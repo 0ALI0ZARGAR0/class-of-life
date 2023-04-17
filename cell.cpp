@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <string>
 
 using namespace std;
 string complementary(string a);
@@ -22,7 +23,7 @@ public:
     void smallMutation(string A, string C, int n);
     void greatMutation(string S1, string S2);
     void reverseMutation(string S1);
-    void createDNA() { cout << complementary(RNA) << endl; }
+    void createDNA() { cout << RNA << " | " << complementary(RNA) << endl; }
     void print() { cout << "RNA: " << RNA << endl
                         << "DNA: " << DNA[0] << " | "
                         << DNA[1] << endl; }
@@ -54,7 +55,11 @@ public:
 
 int main()
 {
-
+    // cell test;
+    // // AATTAAGCTC
+    // genome test_g("AATT", "AATTAAGCTC", "TTAA");
+    // test.addGenome(test_g);
+    // test.palindrome(0);
     return 0;
 }
 
@@ -130,50 +135,120 @@ string replaceStr(string main, int pos1, int len1, string insert, int pos2 = 0, 
 };
 int findSubstr(string main, string find)
 {
-    bool similar = true;
-    int i;
-    for (i = 0; i <= main.length() - find.length(); i++)
+    // simple search:
+    // bool similar = true;
+    // int i;
+    // for (i = 0; i <= main.length() - find.length(); i++)
+    // {
+    //     similar = true;
+    //     for (int j = 0; j < find.length(); j++)
+    //     {
+    //         if (main[i + j] != find[j])
+    //         {
+    //             similar = false;
+    //             break;
+    //         }
+    //     }
+    //     if (similar)
+    //     {
+    //         break;
+    //     }
+    // }
+    // if (similar)
+    //     return i;
+    // else
+    //     return -1;
+
+    // KMP algorithm
+    int M = find.length();
+    int N = main.length();
+    int lps[M];
+
+    int len = 0;
+    lps[0] = 0;
+
+    int i = 1;
+    while (i < M)
     {
-        similar = true;
-        for (int j = 0; j < find.length(); j++)
+        if (find[i] == find[len])
         {
-            if (main[i + j] != find[j])
+            len++;
+            lps[i] = len;
+            i++;
+        }
+        else
+        {
+            if (len != 0)
             {
-                similar = false;
-                break;
+                len = lps[len - 1];
+            }
+            else
+            {
+                lps[i] = 0;
+                i++;
             }
         }
-        if (similar)
+    }
+
+    i = 0;     // main index
+    int j = 0; // find index
+    while ((N - i) >= (M - j))
+    {
+        if (find[j] == main[i])
         {
-            break;
+            j++;
+            i++;
+        }
+        if (j == M)
+        {
+            return i - j;
+            j = lps[j - 1];
+        }
+        else if (i < N && find[j] != main[i])
+        {
+            if (j != 0)
+                j = lps[j - 1];
+            else
+                i = i + 1;
         }
     }
-    if (similar)
-        return i;
-    else
-        return -1;
+    return -1;
 }
 
 // genome class functions:
 void genome::smallMutation(string A, string C, int n)
 {
-    for (int i = 0; i < n; i++)
+    int j = n;
+    for (int i = 0; i < DNA[0].length(); i++)
     {
-        int pos0 = findSubstr(DNA[0], A);
-        int pos1 = findSubstr(DNA[1], A);
-        if (pos1 == -1 and pos0 == -1)
+        if (j == 0)
         {
             break;
         }
-        else if ((pos0 < pos1 and pos0 != -1) or (pos1 == -1 and pos0 != -1))
+        if (string(1, DNA[0][i]) == A)
         {
-            DNA[0] = replaceStr(DNA[0], pos0, A.length(), C);
-            DNA[1] = replaceStr(DNA[1], pos0, A.length(), complementary(C));
+            string(1, DNA[0][i]) = C;
+            string(1, DNA[1][i]) = complementary(C);
+            j--;
         }
-        else
+        else if (string(1, DNA[1][i]) == A)
         {
-            DNA[0] = replaceStr(DNA[0], pos1, A.length(), complementary(C));
-            DNA[1] = replaceStr(DNA[1], pos1, A.length(), C);
+            string(1, DNA[0][i]) = complementary(C);
+            string(1, DNA[1][i]) = A;
+            j--;
+        }
+    }
+    j = n;
+    for (int i = 0; i < RNA.length(); i++)
+    {
+        if (j == 0)
+        {
+            break;
+        }
+        if (string(1, RNA[i]) == A)
+        {
+            string(1, RNA[i]) = C;
+            j--;
         }
     }
 }
@@ -222,25 +297,25 @@ void genome::reverseMutation(string S1)
 }
 
 // cell functions:
-void cell::smallMutation(string A, string C, int n, int m)
+void cell::smallMutation(string A, string C, int j, int m)
 {
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < chromosome[m].DNA[0].length(); i++)
     {
-        int pos0 = findSubstr(chromosome[n].DNA[0], A);
-        int pos1 = findSubstr(chromosome[n].DNA[1], A);
-        if (pos1 == -1 and pos0 == -1)
+        if (j == 0)
         {
             break;
         }
-        else if ((pos0 < pos1 and pos0 != -1) or (pos1 == -1 and pos0 != -1))
+        if (string(1, chromosome[m].DNA[0][i]) == A)
         {
-            chromosome[n].DNA[0] = replaceStr(chromosome[n].DNA[0], pos0, A.length(), C);
-            chromosome[n].DNA[1] = replaceStr(chromosome[n].DNA[1], pos0, A.length(), complementary(C));
+            string(1, chromosome[m].DNA[0][i]) = C;
+            string(1, chromosome[m].DNA[1][i]) = complementary(C);
+            j--;
         }
-        else
+        else if (string(1, chromosome[m].DNA[1][i]) == A)
         {
-            chromosome[n].DNA[0] = replaceStr(chromosome[n].DNA[0], pos1, A.length(), complementary(C));
-            chromosome[n].DNA[1] = replaceStr(chromosome[n].DNA[1], pos1, A.length(), C);
+            string(1, chromosome[m].DNA[0][i]) = complementary(C);
+            string(1, chromosome[m].DNA[1][i]) = A;
+            j--;
         }
     }
 }
@@ -324,7 +399,7 @@ void cell::palindrome(int n)
     cout << "your palindromes are:\n";
     for (int i = 2; i <= chromosome[n].DNA[0].length() / 2; i++)
     {
-        for (int j = 0; j < chromosome[n].DNA[0].length() - 2 * i; j++)
+        for (int j = 0; j <= chromosome[n].DNA[0].length() - 2 * i; j++)
         {
             string temp = chromosome[n].DNA[0].substr(j, i);
             reverse(temp.begin(), temp.end());
@@ -367,5 +442,6 @@ void cell::death()
             cout << "Your cell died\n";
             return;
         }
+        cout << "Your cell is healthy\n";
     }
 }
