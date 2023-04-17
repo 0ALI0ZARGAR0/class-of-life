@@ -135,6 +135,16 @@ public:
             }
         }
     }
+
+    void printf() // prints whole data of the animal
+    {
+        cout << "your animal chromosomes are:\n";
+        for (int i = 0; i < chromosome.size(); i++)
+        {
+            cout << "Your chromosome" << i + 1 << "'s DNA is: " << chromosome[i].DNA[0] << " | " << chromosome[i].DNA[1] << endl;
+        }
+    }
+
     friend class virus; // virus needs access to animal data
 };
 
@@ -183,12 +193,18 @@ public:
             animal.health = false;
             cout << "the virus and animal had \"" << bcs << "\" in common\n"
                  << "harm applied to your animal\n";
+            return;
         }
+        cout << "harm did not apply";
     }
+    void print() // prints virus RNA
+    {
+        cout << "RNA: " << RNA << endl;
+    };
 };
 
 int main()
 {
-    srand(time(0));
+
     return 0;
 }

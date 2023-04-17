@@ -1,17 +1,18 @@
 #include <iostream>
 #include <vector>
-#include "cell.h"
+// #include "cell.h"
 #include "animal.h"
 using namespace std;
 
 vector<genome> genomes;
 vector<cell> cells;
 vector<Animal> animals;
+vector<virus> viruses;
 void list_genomes()
 {
     for (int i = 0; i < genomes.size(); i++)
     {
-        cout << i << "- genome is:";
+        cout << i + 1 << "- genome is:";
         genomes[i].print();
         cout << endl;
     }
@@ -20,7 +21,7 @@ void list_cells()
 {
     for (int i = 0; i < cells.size(); i++)
     {
-        cout << i << "- cell is:";
+        cout << i + 1 << "- cell is:";
         for (int j = 0; j < cells[i].chromosome.size(); j++)
         {
             cells[i].print(j);
@@ -32,7 +33,7 @@ void list_animals()
 {
     for (int i = 0; i < animals.size(); i++)
     {
-        cout << i << "- animal is:";
+        cout << i + 1 << "- animal is:";
         for (int j = 0; j < animals[i].chromosome.size(); j++)
         {
             animals[i].print(j);
@@ -40,8 +41,19 @@ void list_animals()
         }
     }
 }
+void list_viruses()
+{
+    for (int i = 0; i < viruses.size(); i++)
+    {
+        cout << i + 1 << "- virus :\n";
+        viruses[i].print();
+        cout << endl;
+    }
+};
+
 int main()
 {
+    srand(time(0));
     cout << "// welcome //\n";
     bool run = true;
     while (run)
@@ -51,6 +63,7 @@ int main()
              << "'1' for Genomes" << endl
              << "'2' for Cells" << endl
              << "'3' for Animals" << endl
+             << "'4' for viruses" << endl
              << "'0' for exit" << endl;
         int input;
         cin >> input;
@@ -64,11 +77,22 @@ int main()
                  << "'2' create a DNA by an RNA" << endl
                  << "'3' small Mutation (replace n nucleotides)" << endl
                  << "'4' great Mutation (replace a series of nucleotides)" << endl
-                 << "'5' reverse Mutation(reverse a series of nucleotides)" << endl;
+                 << "'5' reverse Mutation(reverse a series of nucleotides)" << endl
+                 << "'0' for exit" << endl;
             cin >> action;
 
             switch (action)
             {
+            case 0:
+            {
+                run = false;
+                break;
+            }
+            default:
+            {
+                cout << "please enter a valid input!\n";
+                break;
+            }
             case 1:
             {
                 string rna, dna1, dna2;
@@ -151,10 +175,21 @@ int main()
                  << "'4' Small Mutation in chromosome" << endl
                  << "'5' Great Mutation in chromosome" << endl
                  << "'6' Reverse Mutation in chromosome" << endl
-                 << "'7' Palindrome in chromosome" << endl;
+                 << "'7' Palindrome in chromosome" << endl
+                 << "'0' for exit" << endl;
             cin >> action2;
             switch (action2)
             {
+            case 0:
+            {
+                run = false;
+                break;
+            }
+            default:
+            {
+                cout << "please enter a valid input!\n";
+                break;
+            }
             case 1:
             {
                 cell c;
@@ -283,7 +318,6 @@ int main()
                 break;
             }
             }
-
             break;
         }
         case 3:
@@ -295,32 +329,64 @@ int main()
             cout << "'3' Is same kind? " << endl;
             cout << "'4' asexual reproduction " << endl;
             cout << "'5' sexual reproduction " << endl;
+            cout << "'6' Check cell's health" << endl
+                 << "'0' for exit" << endl;
             cin >> action3;
-
             switch (action3)
             {
+            case 0:
+            {
+                run = false;
+                break;
+            }
+            default:
+            {
+                cout << "please enter a valid input!\n";
+                break;
+            }
             case 1:
             {
-                Animal tmp;
-                animals.push_back(tmp);
-                cout << "animal created successfully!\n";
+                int cC, aC;
+                cout << "how many animals do you want to create?" << endl;
+                cin >> aC;
+                Animal a1;
+                for (int j = 0; j < aC; j++)
+                {
+                    cout << "for animal " << j + 1 << ":" << endl;
+                    cout << "How many genomes do you want to add now? " << endl;
+                    cin >> cC;
+                    for (int i = 0; i < cC; i++)
+                    {
+                        string dn1, dn2;
+                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 1:" << endl;
+                        cin >> dn1;
+                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 2:" << endl;
+                        cin >> dn2;
+                        genome tmp(NULL, dn1, dn2);
+                        a1.addGenome(tmp);
+                    }
+                    animals.push_back(a1);
+                    cout << "animal created successfully!\n";
+                }
             }
             case 2:
             {
-                int n, m;
-                cout << "choose your animals:\n";
-                cin >> n >> m;
-                cout << "similarity is: " << animals[n].Genetic_similarity(animals[m]) << endl;
+                int selected1;
+                int selected2;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >> selected1;
+                cin >> selected2;
+                cout << "similarity is: " << animals[selected1 - 1].Genetic_similarity(animals[selected2 - 1]) << "%" << endl;
                 break;
             }
             case 3:
             {
-                Animal animal1;
-                cout << "Enter the chromosome of animal1 :";
-                // cin>>;
-                cout << "Enter the chromosome of aniaml2 :";
-                // cin>>
-                if (Animals[m - 1].operator==(Animals[n - 1]))
+                int selected1;
+                int selected2;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >> selected1;
+                cin >> selected2;
+                if (animals[selected1 - 1] == (animals[selected2 - 1]))
                 {
                     cout << "they are in a same group! " << endl;
                 }
@@ -332,58 +398,83 @@ int main()
             }
             case 4:
             {
-                string chromosome;
-                cout << "Enter the chromosome :" << endl;
-                cin >> chromosome;
-                cout << "the cromosome of a new animal is:" << endl;
-                animal1.asexual();
+                int selected1;
+                cout << "Which animal? from 1 to " << animals.size() << endl;
+                cin >> selected1;
+                animals[selected1 - 1].asexual();
                 break;
             }
             case 5:
             {
-                string chromosome;
-                cout << "Enter the chromosome of aniaml2 :" << endl;
-                cin >> chromosome;
-                animal2.operator+(chromosome);
-                new_aniaml.print();
+                int selected1;
+                int selected2;
+                Animal new_animal;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >> selected1;
+                cin >> selected2;
+                new_animal = animals[selected1 - 1] + (animals[selected2 - 1]);
+                new_animal.printf();
+                break;
             }
             case 6:
             {
-                int cC, aC;
-                cout << "how many animals do you want to create?" << endl;
-                cin >> aC;
-                for (int j = 0; j < aC; j++)
-                {
-                    cout << "for animal " << j + 1 << ":" << endl;
-                    cout << "enter cell size of the Animal(count of chromosomes)" << endl;
-                    cin >> cC;
-                    vector<genome> r;
-                    for (int i = 0; i < cC; i++)
-                    {
-                        string dn1, dn2;
-                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 1:" << endl;
-                        cin >> dn1;
-                        cout << "enter number " << i + 1 << "'s chromosomes DNA part 2:" << endl;
-                        cin >> dn2;
-                        genome tmp(NULL, dn1, dn2);
-                        r.push_back(tmp);
-                    }
-                    Animal a1(r);
-                    Animals.push_back(a1);
-                }
+                int selected;
+                cout << "Which animal? from 1 to " << animals.size() << endl;
+                cin >> selected;
+                animals[selected - 1].death();
+                break;
             }
             }
-
-            break;
+        case 4:
+        {
+            int a;
+            cout << "what do you wish to do?" << endl;
+            cout << "'1' create a virus" << endl;
+            cout << "'2' apply harm" << endl
+                 << "'0' for exit" << endl;
+            cin >> a;
+            switch (a)
+            {
+            case 0:
+            {
+                run = false;
+                break;
+            }
+            default:
+            {
+                cout << "please enter a valid input!\n";
+                break;
+            }
+            case 1:
+            {
+                string rna;
+                cout << "Enter your virus RNA: ";
+                cin >> rna;
+                virus tmp = virus(rna);
+                viruses.push_back(tmp);
+                break;
+            }
+            case 2:
+            {
+                int selected1, selected2;
+                cout << "Which virus? from 1 to " << viruses.size() << endl;
+                cin >> selected1;
+                cout << "to which animal? from 1 to " << animals.size() << endl;
+                cin >> selected2;
+                viruses[selected1].harm(animals[selected2]);
+            }
+            }
         }
         case 0:
         {
             run = false;
+            break;
         }
         default:
         {
             cout << "please enter a valid input!\n";
             break;
+        }
         }
         }
     }

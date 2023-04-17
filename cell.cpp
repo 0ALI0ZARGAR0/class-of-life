@@ -59,6 +59,14 @@ public:
     {
         cout << "Your chromosome" << n + 1 << "'s DNA is: " << chromosome[n].DNA[0] << " | " << chromosome[n].DNA[1] << endl;
     }
+    void printf() // prints whole data of the cell
+    {
+        cout << "your cell chromosomes are:\n";
+        for (int i = 0; i < chromosome.size(); i++)
+        {
+            cout << "Your chromosome" << i + 1 << "'s DNA is: " << chromosome[i].DNA[0] << " | " << chromosome[i].DNA[1] << endl;
+        }
+    }
 };
 
 int main()
