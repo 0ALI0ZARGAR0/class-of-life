@@ -134,28 +134,84 @@ string replaceStr(string main, int pos1, int len1, string insert, int pos2 = 0, 
 };
 int findSubstr(string main, string find)
 {
-    bool similar = true;
-    int i;
-    for (i = 0; i <= main.length() - find.length(); i++)
+    // simple search:
+    // bool similar = true;
+    // int i;
+    // for (i = 0; i <= main.length() - find.length(); i++)
+    // {
+    //     similar = true;
+    //     for (int j = 0; j < find.length(); j++)
+    //     {
+    //         if (main[i + j] != find[j])
+    //         {
+    //             similar = false;
+    //             break;
+    //         }
+    //     }
+    //     if (similar)
+    //     {
+    //         break;
+    //     }
+    // }
+    // if (similar)
+    //     return i;
+    // else
+    //     return -1;
+
+    // KMP algorithm
+    int M = find.length();
+    int N = main.length();
+    int lps[M];
+
+    int len = 0;
+    lps[0] = 0;
+
+    int i = 1;
+    while (i < M)
     {
-        similar = true;
-        for (int j = 0; j < find.length(); j++)
+        if (find[i] == find[len])
         {
-            if (main[i + j] != find[j])
+            len++;
+            lps[i] = len;
+            i++;
+        }
+        else
+        {
+            if (len != 0)
             {
-                similar = false;
-                break;
+                len = lps[len - 1];
+            }
+            else
+            {
+                lps[i] = 0;
+                i++;
             }
         }
-        if (similar)
+    }
+
+    i = 0;     // main index
+    int j = 0; // find index
+    while ((N - i) >= (M - j))
+    {
+        if (find[j] == main[i])
         {
-            break;
+            j++;
+            i++;
+        }
+        if (j == M)
+        {
+            return i - j;
+            j = lps[j - 1];
+        }
+        else if (i < N && find[j] != main[i])
+        {
+            if (j != 0)
+                j = lps[j - 1];
+            else
+                i = i + 1;
         }
     }
-    if (similar)
-        return i;
-    else
-        return -1;
+    return -1;
 }
 
 // genome class functions:
