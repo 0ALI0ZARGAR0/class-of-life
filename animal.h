@@ -8,6 +8,13 @@ using namespace std;
 class Animal : public cell
 {
 public:
+<<<<<<< HEAD
+    Animal(){}
+    Animal(vector<genome> r){
+        chromosome = r;
+    }
+=======
+>>>>>>> b870935122989c003030ab444ce1afd494938c16
     bool health = true;
     double Genetic_similarity(Animal animal1)
     {
@@ -134,6 +141,13 @@ public:
     friend class virus;
 };
 
+<<<<<<< HEAD
+int main()
+{
+    return 0;
+}
+=======
+>>>>>>> b870935122989c003030ab444ce1afd494938c16
 string biggestCommonSubstr(Animal animal)
 {
     int n = animal.chromosome.size();
@@ -182,4 +196,8 @@ public:
                  << "harm applied to your animal\n";
         }
     }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> b870935122989c003030ab444ce1afd494938c16

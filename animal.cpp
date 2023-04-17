@@ -12,6 +12,7 @@ public:
 
     double Genetic_similarity(Animal animal1) // an algorithm which determine the similarity of two animal
                                               // based on their chromosomes number and chromosomes data
+
     {
         double sum2 = 0;
         for (int j = 0; j < min(chromosome.size(), animal1.chromosome.size()); j++)
@@ -107,6 +108,7 @@ public:
     }
 
     void death() // this may result in an animal genome deletion if certain conditions be met
+
     {
         for (int j = 0; j < chromosome.size(); j++)
         {

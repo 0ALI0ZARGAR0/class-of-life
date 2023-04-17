@@ -295,59 +295,13 @@ int main()
             cout << "'3' Is same kind? " << endl;
             cout << "'4' asexual reproduction " << endl;
             cout << "'5' sexual reproduction " << endl;
+            cout <<"'6' virus(check that virus is it harmful or not?)"<<endl;
+
             cin >> action3;
 
             switch (action3)
             {
             case 1:
-            {
-                Animal tmp;
-                animals.push_back(tmp);
-                cout << "animal created successfully!\n";
-            }
-            case 2:
-            {
-                int n, m;
-                cout << "choose your animals:\n";
-                cin >> n >> m;
-                cout << "similarity is: " << animals[n].Genetic_similarity(animals[m]) << endl;
-                break;
-            }
-            case 3:
-            {
-                Animal animal1;
-                cout << "Enter the chromosome of animal1 :";
-                // cin>>;
-                cout << "Enter the chromosome of aniaml2 :";
-                // cin>>
-                if (Animals[m - 1].operator==(Animals[n - 1]))
-                {
-                    cout << "they are in a same group! " << endl;
-                }
-                else
-                {
-                    cout << "They are not the same!" << endl;
-                }
-                break;
-            }
-            case 4:
-            {
-                string chromosome;
-                cout << "Enter the chromosome :" << endl;
-                cin >> chromosome;
-                cout << "the cromosome of a new animal is:" << endl;
-                animal1.asexual();
-                break;
-            }
-            case 5:
-            {
-                string chromosome;
-                cout << "Enter the chromosome of aniaml2 :" << endl;
-                cin >> chromosome;
-                animal2.operator+(chromosome);
-                new_aniaml.print();
-            }
-            case 6:
             {
                 int cC, aC;
                 cout << "how many animals do you want to create?" << endl;
@@ -369,16 +323,81 @@ int main()
                         r.push_back(tmp);
                     }
                     Animal a1(r);
-                    Animals.push_back(a1);
+                    animals.push_back(a1);
+                    cout<<"animal created successfully!\n";
+            }
+            case 2:
+            {
+                int selected1;
+                int selected2;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                cin>>selected2;
+                cout << "similarity is: " << animals[selected1-1].Genetic_similarity(animals[selected2-1])<<"%"<< endl;
+                break;
+            }
+            case 3:
+            {
+                int selected1;
+                int selected2;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                cin>>selected2;
+                if (animals[selected1 - 1].operator==(animals[selected2 - 1]))
+                {
+                    cout << "they are in a same group! " << endl;
                 }
+                else
+                {
+                    cout << "They are not the same!" << endl;
+                }
+                break;
             }
+            case 4:
+            {
+                int selected1;
+                cout << "Which animal? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                animals[selected1 - 1].asexual();
+                break;
             }
-
-            break;
+            case 5:
+            {
+                int selected1;
+                int selected2;
+                Animal New_aniaml;
+                cout << "Which animals? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                cin>>selected2;
+                New_aniaml=animals[selected1-1].operator+(animals[selected2-1]);
+                New_aniaml.print();
+                break;
+            }
+            
+            case 6:
+            {
+                 int selected1;
+                cout << "Which animal? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                animals[selected1 - 1].death();
+                 break;
+            }
+           
+            case 7:
+            {
+            int selected1;
+                cout << "Which animal? from 1 to " << animals.size() << endl;
+                cin >>selected1;
+                animals[selected1 - 1].virus();
+                break;
+            }
+            
         }
+            }
         case 0:
         {
             run = false;
+            break;
         }
         default:
         {
@@ -387,4 +406,5 @@ int main()
         }
         }
     }
+}
 }
