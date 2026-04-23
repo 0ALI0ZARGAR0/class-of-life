@@ -55,7 +55,7 @@ _Note: n = length of main string, m = length of pattern/insert string, c = numbe
 ## Quick Start
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/0ALI0ZARGAR0/class-of-life.git
 cd class-of-life
 g++ main.cpp animal.cpp cell.cpp -o simulator
 ./simulator
