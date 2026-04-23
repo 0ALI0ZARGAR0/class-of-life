@@ -19,6 +19,23 @@ This project implements fundamental biological concepts through object-oriented 
 - **Health Assessment**: Evaluates nucleotide mismatches and AT/CG ratios to determine cell/animal viability.
 - **KMP Algorithm**: Optimized string matching for substring searches in genetic sequences.
 
+## String Algorithms
+
+| Algorithm/Function                                                               | Description                                                                    | Time Complexity |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------- |
+| `complementary(string a)`                                                        | Generates complementary DNA/RNA strand by pairing A-T and C-G                  | O(n)            |
+| `reverseStr(string s, int a, int b)`                                             | Reverses a substring between indices a and b in-place                          | O(n)            |
+| `replaceStr(string main, int pos1, int len1, string insert, int pos2, int len2)` | Replaces a substring in main string with part of another string                | O(n + m)        |
+| `findSubstr(string main, string find)` (KMP)                                     | Finds first occurrence of pattern in text using Knuth-Morris-Pratt algorithm   | O(n + m)        |
+| `Genetic_similarity()`                                                           | Calculates similarity percentage between two animals by comparing chromosomes  | O(c × l)        |
+| `biggestCommonSubstr()`                                                          | Finds longest common substring across all chromosomes in an animal             | O(c × l²)       |
+| `palindrome(int n)`                                                              | Detects palindromic sequences in DNA strands considering complementary pairing | O(l²)           |
+| `smallMutation()`                                                                | Replaces n occurrences of a nucleotide character in genetic sequences          | O(l)            |
+| `greatMutation()`                                                                | Replaces first occurrence of a substring with another using KMP for finding    | O(n + m)        |
+| `reverseMutation()`                                                              | Reverses the order of a matched substring in genetic sequences                 | O(n + m)        |
+
+_Note: n = length of main string, m = length of pattern/insert string, c = number of chromosomes, l = chromosome length_
+
 ## Technologies Used
 
 - **Language**: C++
